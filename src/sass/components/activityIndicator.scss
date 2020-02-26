@@ -11,7 +11,7 @@
   position: absolute;
   width: 6px;
   height: 6px;
-  background: rgb(163, 163, 163);
+  background: $color-grey-light;
   border-radius: 50%;
   animation: lds-default 1.2s linear infinite;
 }

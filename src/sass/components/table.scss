@@ -1,0 +1,23 @@
+.tbl-main {
+  border-collapse: collapse;
+  width: 100%;
+  white-space: normal;
+
+  td,
+  th {
+    border: 1px solid $color-grey-light;
+    text-align: left;
+    padding: 8px;
+  }
+
+  th {
+    text-transform: capitalize;
+    position: sticky;
+    top: -1px;
+    background-color: $color-white;
+  }
+
+  tr:nth-child(even) {
+    background-color: $color-grey-light;
+  }
+}

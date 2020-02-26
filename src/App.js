@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./App.css";
 import { saveExcel, loadExcelAsync } from "./utils/excel";
 import { loadPredictions } from "./api/api";
 import DataTable from "./components/table";
@@ -66,6 +65,7 @@ function App() {
     <div className="App">
       Suggestion amount:{" "}
       <input
+        style={{ padding: 5, marginRight: 10 }}
         className="suggestionAmount"
         onChange={handleSuggestionNumberChanged}
         type="number"
@@ -80,7 +80,8 @@ function App() {
       ></FileUpload>
       {data && (
         <button
-          className="downloadExcelButton"
+          style={{ display: "block", marginBottom: 15, marginTop: 15 }}
+          className="btn-primary green"
           onClick={e => saveExcel(keys, values)}
         >
           Download excel

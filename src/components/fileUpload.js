@@ -1,10 +1,10 @@
 import React from "react";
-import "./fileUpload.css";
 
 export const FileUpload = ({ onFileSelected, filename }) => {
   return (
     <div style={{ display: "inline-block" }}>
       <input
+        style={{ display: "none" }}
         type="file"
         id="file"
         onChange={onFileSelected}
@@ -13,10 +13,12 @@ export const FileUpload = ({ onFileSelected, filename }) => {
         }}
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       />
-      <label htmlFor="file" className="custom-file-upload">
+      <label htmlFor="file" className="btn-primary">
         Choose a file
       </label>
-      <span className="filename">{filename}</span>
+      <span className="filename" style={{ paddingLeft: 10 }}>
+        {filename}
+      </span>
     </div>
   );
 };

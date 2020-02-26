@@ -1,5 +1,4 @@
 import React from "react";
-import "./activityIndicator.css";
 
 export default function ActivityIndicator(props) {
   return (

@@ -1,12 +1,11 @@
 import React from "react";
-import "./table.css";
 import ActivityIndicator from "./activityIndicator";
 
 const dataTable = ({ keys, values, isLoadingData }) => {
   if (isLoadingData) return <ActivityIndicator />;
 
   return (
-    <table>
+    <table className="tbl-main">
       <thead>
         <tr>
           {keys.map(key => (

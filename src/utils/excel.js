@@ -6,9 +6,9 @@ export const loadExcelAsync = async (file, sheetNumber = 0) => {
     var reader = new FileReader();
     reader.onload = e => {
       var data = e.target.result;
-      let readedData = XLSX.read(data, { type: "binary" });
-      const wsname = readedData.SheetNames[sheetNumber];
-      const ws = readedData.Sheets[wsname];
+      let readData = XLSX.read(data, { type: "binary" });
+      const wsname = readData.SheetNames[sheetNumber];
+      const ws = readData.Sheets[wsname];
 
       /* Convert array to json*/
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });

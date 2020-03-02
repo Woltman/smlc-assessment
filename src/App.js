@@ -4,12 +4,16 @@ import { loadPredictions } from "./api/api";
 import DataTable from "./components/table";
 import { concatProductdataPredictions } from "./utils/parse";
 import { FileUpload } from "./components/fileUpload";
+import ActivityIndicator from "./components/activityIndicator";
+import { useFakeLoaderState } from "react-progress-hook";
 
 function App() {
   const [data, setData] = useState(undefined);
   const [filename, setFilename] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [suggestionNumber, setSuggestionNumber] = useState(3);
+  const tableLoaderState = useFakeLoaderState({
+    expectedStepTime: 5000
+  });
 
   let keys = [];
   let values = [];
@@ -25,33 +29,26 @@ function App() {
     let file = event.target.files[0];
     if (!file) return;
 
-    setIsLoading(true);
     setFilename(file.name);
 
     let result = await loadExcelAsync(file);
     let data = await loadPredictionsAsync(result);
 
-    setIsLoading(false);
     setData(data);
   };
 
-  const loadPredictionsAsync = async inputData => {
-    return loadPredictions({
+  const loadPredictionsAsync = async inputData =>
+    loadPredictions({
       data: inputData,
-      numberOfSuggestions: suggestionNumber
+      numberOfSuggestions: suggestionNumber,
+      onProgress: tableLoaderState.onProgress
     })
-      .then(responseArray => {
-        let predictionData = responseArray
-          .map(
-            response =>
-              response.data.ExecutionResults.Results.ExecutionOutputs.Output
-          )
-          .flat();
+      .then(resultArray => {
+        let predictionData = resultArray.flat();
 
         return concatProductdataPredictions(inputData, predictionData);
       })
       .catch(response => console.log(response));
-  };
 
   const handleSuggestionNumberChanged = e => {
     const value = parseInt(e.currentTarget.value);
@@ -87,11 +84,14 @@ function App() {
           Download excel
         </button>
       )}
-      <DataTable
-        keys={keys}
-        values={values}
-        isLoadingData={isLoading}
-      ></DataTable>
+      {!tableLoaderState.isLoading && keys && values && (
+        <DataTable keys={keys} values={values}></DataTable>
+      )}
+      {tableLoaderState.isLoading && (
+        <ActivityIndicator
+          displayPercentage={tableLoaderState.displayPercentage}
+        />
+      )}
     </div>
   );
 }

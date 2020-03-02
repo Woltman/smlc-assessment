@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ActivityIndicator(props) {
+export default function ActivityIndicator({ displayPercentage }) {
   return (
     <div className="lds-default">
       <div></div>
@@ -15,6 +15,9 @@ export default function ActivityIndicator(props) {
       <div></div>
       <div></div>
       <div></div>
+      <p style={{ lineHeight: "80px", textAlign: "center", color: "#ccc" }}>
+        {displayPercentage}%
+      </p>
     </div>
   );
 }

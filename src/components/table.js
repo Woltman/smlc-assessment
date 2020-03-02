@@ -1,9 +1,6 @@
 import React from "react";
-import ActivityIndicator from "./activityIndicator";
 
-const dataTable = ({ keys, values, isLoadingData }) => {
-  if (isLoadingData) return <ActivityIndicator />;
-
+const dataTable = ({ keys, values }) => {
   return (
     <table className="tbl-main">
       <thead>

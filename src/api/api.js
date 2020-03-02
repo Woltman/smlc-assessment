@@ -34,7 +34,11 @@ axios.interceptors.response.use(
   }
 );
 
-export const loadPredictions = async ({ numberOfSuggestions = 3, data }) => {
+export const loadPredictions = async ({
+  numberOfSuggestions = 3,
+  data,
+  onProgress
+}) => {
   let batches = arrayToBatches(data, MAX_BATCH_SIZE);
 
   const inputData = batches.map(batch =>
@@ -42,17 +46,27 @@ export const loadPredictions = async ({ numberOfSuggestions = 3, data }) => {
   );
 
   let fetchCalls = [];
+  onProgress &&
+    onProgress({ total: inputData.length, done: fetchCalls.length });
 
   for (const input of inputData) {
     let res = await loadPrediction(input);
     fetchCalls.push(res);
+
+    onProgress &&
+      onProgress({ total: inputData.length, done: fetchCalls.length });
   }
 
-  return axios.all(fetchCalls);
+  return fetchCalls;
 };
 
 const loadPrediction = input => {
-  return axios.post(API_URL, input, commonAxiosRequestConfig);
+  // return new Promise(resolve => setTimeout(() => resolve(input), 5000));
+  return axios
+    .post(API_URL, input, commonAxiosRequestConfig)
+    .then(
+      response => response.data.ExecutionResults.Results.ExecutionOutputs.Output
+    );
 };
 
 const arrayToBatches = (array, batchSize) => {

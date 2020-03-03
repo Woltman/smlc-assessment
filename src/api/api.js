@@ -60,8 +60,7 @@ export const loadPredictions = async ({
   return fetchCalls;
 };
 
-const loadPrediction = input => {
-  // return new Promise(resolve => setTimeout(() => resolve(input), 5000));
+const loadPrediction = async input => {
   return axios
     .post(API_URL, input, commonAxiosRequestConfig)
     .then(
